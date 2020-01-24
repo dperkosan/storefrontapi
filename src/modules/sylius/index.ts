@@ -24,7 +24,7 @@ export const SyliusModule: StorefrontApiModule = new StorefrontApiModule({
     let api = Router();
 
     // mount the cart resource
-    //api.use('/cart', cart({ config, db }));
+    // api.use('/cart', cart({ config, db }));
 
     // mount the order resource
     api.use('/sayHello', (req, res) => {
