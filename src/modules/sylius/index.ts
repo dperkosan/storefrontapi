@@ -1,7 +1,7 @@
 import { StorefrontApiModule, registerExtensions } from 'src/lib/module'
 import { StorefrontApiContext, GraphqlConfiguration, ElasticSearchMappings } from 'src/lib/module/types'
 import { Router } from 'express'
-// import cart from './api/cart';
+import cart from './api/cart';
 import resolvers from './graphql/resolvers'
 import schema from './graphql/schema'
 
@@ -24,7 +24,7 @@ export const SyliusModule: StorefrontApiModule = new StorefrontApiModule({
     let api = Router();
 
     // mount the cart resource
-    // api.use('/cart', cart({ config, db }));
+    api.use('/cart', cart({ config, db }));
 
     // mount the order resource
     api.use('/sayHello', (req, res) => {
