@@ -15,7 +15,7 @@ function isNumeric(val) {
     module.create = (customerToken) => {
       url += ``;
       return restClient.post(url).then((data)=> {
-        if (typeof data.code !== 'undefined' && data.code == 200) {
+        if (typeof data.code !== 'undefined' && data.code === 200) {
             data.result = data.tokenValue;
         }
         return getResponse(data);
