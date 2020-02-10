@@ -53,7 +53,7 @@ module.delete = (customerToken, cartId, cartItem) => {
         url += `/${cartId}`;
         return restClient.get(url).then((data)=> {
             if (typeof data.code !== 'undefined' && data.code === 200) {
-                if (data.items === undefined || data.items.length == 0) {
+                if (data.items === undefined || data.items.length === 0) {
                     data.result = [];
                 }else{
                     // TO DO:
