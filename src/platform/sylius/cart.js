@@ -2,23 +2,27 @@ import AbstractCartProxy from '../abstract/cart';
 import { multiStoreConfig } from './util'
 
 class CartProxy extends AbstractCartProxy {
-  constructor (config, req) {
-    const SyliusClient = require('./module/index.js').SyliusClient;
-    super(config, req)
-    this.api = SyliusClient(multiStoreConfig(config.sylius.api, req));
-  }
-  create (customerToken) {
-    return this.api.cart.create(customerToken);
-  }
+    constructor (config, req) {
+        const SyliusClient = require('./module/index.js').SyliusClient;
+        super(config, req)
+        this.api = SyliusClient(multiStoreConfig(config.sylius.api, req));
+    }
+
+    create (customerToken) {
+        return this.api.cart.create(customerToken);
+    }
+
   update (customerToken, cartId, cartItem) {
     return this.api.cart.update(customerToken, cartId, cartItem);
   }
   delete (customerToken, cartId, cartItem) {
     return this.api.cart.delete(customerToken, cartId, cartItem);
   }
-  pull (customerToken, cartId, params) {
-    return this.api.cart.pull(customerToken, cartId, params);
-  }
+
+    pull (customerToken, cartId, params) {
+        return this.api.cart.pull(customerToken, cartId, params);
+    }
+
   totals (customerToken, cartId, params) {
     return this.api.cart.totals(customerToken, cartId, params);
   }
