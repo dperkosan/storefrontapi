@@ -1,5 +1,6 @@
 const RestClient = require('./lib/rest_client').RestClient;
 const cart = require('./lib/cart');
+const stock = require('./lib/stock');
 
 const SYLIUS_API_VERSION = '1.0.0';
 
@@ -21,6 +22,7 @@ module.exports.SyliusClient = function (options) {
   let client = RestClient(options);
 
   instance.cart = cart(client);
+  instance.stock = stock(client);
 
   return instance;
 };

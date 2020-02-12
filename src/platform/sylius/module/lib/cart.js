@@ -4,8 +4,7 @@ function isNumeric(val) {
   
 module.exports = function (restClient) {
     let module = {};
-    const urlPrefix = 'carts';
-    let url = urlPrefix;
+    let url = '';
     
     function getResponse(data){
         if(data.code === 200){
@@ -15,6 +14,7 @@ module.exports = function (restClient) {
     }
 
     module.create = (customerToken) => {
+        url = 'carts'
         return restClient.post(url).then((data)=> {
             if (typeof data.code !== 'undefined' && data.code === 200) {
                 // reformat response to match with vuestorefront
@@ -25,12 +25,13 @@ module.exports = function (restClient) {
         });
     }
     
-module.update = (customerToken, cartId, cartItem) => {
-    url += `update?token=${customerToken}&cartId=${cartId}`;
-    return restClient.post(url, { cartItem: cartItem }).then((data)=> {
-    return getResponse(data);
-    });
-}
+    module.update = (customerToken, cartId, cartItem) => {
+        url = `carts/${cartId}/items`;
+        return restClient.post(url, { cartItem: cartItem }).then((data)=> {
+            return getResponse(data);
+        });
+    }
+
 module.applyCoupon = (customerToken, cartId, coupon) => {
     url += `applyCoupon?token=${customerToken}&cartId=${cartId}&coupon=${coupon}`;
     return restClient.post(url).then((data)=> {
@@ -51,7 +52,7 @@ module.delete = (customerToken, cartId, cartItem) => {
 }
 
     module.pull = (customerToken, cartId) => {
-        url += `/${cartId}`;
+        url = `carts/${cartId}`;
         return restClient.get(url).then((data)=> {
             if (typeof data.code !== 'undefined' && data.code === 200) {
                 if (data.items === undefined || data.items.length === 0) {
@@ -78,12 +79,14 @@ module.shippingInformation = (customerToken, cartId, body) => {
     return getResponse(data);
     });
 }
-module.shippingMethods = (customerToken, cartId, address) => {
-    url += `shippingMethods?token=${customerToken}&cartId=${cartId}`;
-    return restClient.post(url, { address: address }).then((data)=> {
-    return getResponse(data);
-    });
-}
+
+    module.shippingMethods = (customerToken, cartId, address) => {
+        url = `checkout/${cartId}/shipping`;
+        return restClient.get(url, { address: address }).then((data)=> {
+            return getResponse(data);
+        });
+    }
+
 module.paymentMethods = (customerToken, cartId) => {
     url += `paymentMethods?token=${customerToken}&cartId=${cartId}`;
     return restClient.get(url).then((data)=> {

@@ -1,5 +1,5 @@
 import AbstractCartProxy from '../abstract/cart';
-import { multiStoreConfig } from './util'
+import { multiStoreConfig } from './util';
 
 class CartProxy extends AbstractCartProxy {
     constructor (config, req) {
@@ -12,9 +12,10 @@ class CartProxy extends AbstractCartProxy {
         return this.api.cart.create(customerToken);
     }
 
-  update (customerToken, cartId, cartItem) {
-    return this.api.cart.update(customerToken, cartId, cartItem);
-  }
+    update (customerToken, cartId, cartItem) {
+        return this.api.cart.update(customerToken, cartId, cartItem);
+    }
+    
   delete (customerToken, cartId, cartItem) {
     return this.api.cart.delete(customerToken, cartId, cartItem);
   }
@@ -26,9 +27,11 @@ class CartProxy extends AbstractCartProxy {
   totals (customerToken, cartId, params) {
     return this.api.cart.totals(customerToken, cartId, params);
   }
-  getShippingMethods (customerToken, cartId, address) {
-    return this.api.cart.shippingMethods(customerToken, cartId, address);
-  }
+
+    getShippingMethods (customerToken, cartId, address) {
+        return this.api.cart.shippingMethods(customerToken, cartId, address);
+    }
+
   getPaymentMethods (customerToken, cartId) {
     return this.api.cart.paymentMethods(customerToken, cartId);
   }

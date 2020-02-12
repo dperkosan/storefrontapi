@@ -1,5 +1,5 @@
-import AbstractStockProxy from '../abstract/stock'
-import { multiStoreConfig } from './util'
+import AbstractStockProxy from '../abstract/stock';
+import { multiStoreConfig } from './util';
 
 class StockProxy extends AbstractStockProxy {
     constructor (config, req) {
