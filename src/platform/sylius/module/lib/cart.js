@@ -4,7 +4,8 @@ function isNumeric(val) {
   
 module.exports = function (restClient) {
     let module = {};
-    let url = '';
+    const urlPrefix = 'carts';
+    let url = urlPrefix;
     
     function getResponse(data){
         if(data.code === 200){
@@ -14,7 +15,6 @@ module.exports = function (restClient) {
     }
 
     module.create = (customerToken) => {
-        url = 'carts'
         return restClient.post(url).then((data)=> {
             if (typeof data.code !== 'undefined' && data.code === 200) {
                 // reformat response to match with vuestorefront
@@ -26,7 +26,7 @@ module.exports = function (restClient) {
     }
     
     module.update = (customerToken, cartId, cartItem) => {
-        url = `carts/${cartId}/items`;
+        url += `/${cartId}/items`;
         return restClient.post(url, { cartItem: cartItem }).then((data)=> {
             return getResponse(data);
         });
@@ -52,7 +52,7 @@ module.delete = (customerToken, cartId, cartItem) => {
 }
 
     module.pull = (customerToken, cartId) => {
-        url = `carts/${cartId}`;
+        url += `/${cartId}`;
         return restClient.get(url).then((data)=> {
             if (typeof data.code !== 'undefined' && data.code === 200) {
                 if (data.items === undefined || data.items.length === 0) {
@@ -81,8 +81,9 @@ module.shippingInformation = (customerToken, cartId, body) => {
 }
 
     module.shippingMethods = (customerToken, cartId, address) => {
-        url = `checkout/${cartId}/shipping`;
+        url += `/${cartId}/shipping`;
         return restClient.get(url, { address: address }).then((data)=> {
+            return data;
             return getResponse(data);
         });
     }
