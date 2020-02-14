@@ -8,8 +8,8 @@ class StockProxy extends AbstractStockProxy {
         this.api = SyliusClient(multiStoreConfig(config.sylius.api, req));
     }
 
-    check (sku) {
-        return this.api.stock.check(sku);
+    check (data) {
+        return this.api.stock.check(data.sku);
     }
 }
 

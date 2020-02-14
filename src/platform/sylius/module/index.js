@@ -1,4 +1,5 @@
 const RestClient = require('./lib/rest_client').RestClient;
+const user = require('./lib/user');
 const cart = require('./lib/cart');
 const stock = require('./lib/stock');
 
@@ -21,6 +22,7 @@ module.exports.SyliusClient = function (options) {
 
   let client = RestClient(options);
 
+  instance.user = user(client);
   instance.cart = cart(client);
   instance.stock = stock(client);
 

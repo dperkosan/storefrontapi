@@ -4,7 +4,7 @@ function isNumeric(val) {
   
 module.exports = function (restClient) {
     let module = {};
-    const urlPrefix = 'carts';
+    const urlPrefix = 'cart/';
     let url = urlPrefix;
     
     function getResponse(data){
@@ -15,18 +15,14 @@ module.exports = function (restClient) {
     }
 
     module.create = (customerToken) => {
+        url += `create?token=${customerToken}`;
         return restClient.post(url).then((data)=> {
-            if (typeof data.code !== 'undefined' && data.code === 200) {
-                // reformat response to match with vuestorefront
-                data.result = data.tokenValue;
-            }
-
             return getResponse(data);
         });
     }
     
     module.update = (customerToken, cartId, cartItem) => {
-        url += `/${cartId}/items`;
+        url += `update?token=${customerToken}&cartId=${cartId}`;
         return restClient.post(url, { cartItem: cartItem }).then((data)=> {
             return getResponse(data);
         });
@@ -52,17 +48,8 @@ module.delete = (customerToken, cartId, cartItem) => {
 }
 
     module.pull = (customerToken, cartId) => {
-        url += `/${cartId}`;
+        url += `pull?token=${customerToken}&cartId=${cartId}`;
         return restClient.get(url).then((data)=> {
-            if (typeof data.code !== 'undefined' && data.code === 200) {
-                if (data.items === undefined || data.items.length === 0) {
-                    data.result = [];
-                }else{
-                    // TO DO:
-                    // format to match vuestorefront specs
-                }
-            }
-
             return getResponse(data);
         });
     }
@@ -73,27 +60,28 @@ module.totals = (customerToken, cartId) => {
     return getResponse(data);
     });
 }
-module.shippingInformation = (customerToken, cartId, body) => {
-    url += `totals?token=${customerToken}&cartId=${cartId}`;
-    return restClient.post(url, body).then((data)=> {
-    return getResponse(data);
-    });
-}
 
-    module.shippingMethods = (customerToken, cartId, address) => {
-        url += `/${cartId}/shipping`;
-        return restClient.get(url, { address: address }).then((data)=> {
-            return data;
+    module.shippingInformation = (customerToken, cartId, body) => {
+        url += `shipping-information?token=${customerToken}&cartId=${cartId}`;
+        return restClient.post(url, body).then((data)=> {
             return getResponse(data);
         });
     }
 
-module.paymentMethods = (customerToken, cartId) => {
-    url += `paymentMethods?token=${customerToken}&cartId=${cartId}`;
-    return restClient.get(url).then((data)=> {
-    return getResponse(data);
-    });
-}
+    module.shippingMethods = (customerToken, cartId, address) => {
+        url += `shipping-methods?token=${customerToken}&cartId=${cartId}`;
+        return restClient.post(url, { address: address }).then((data)=> {
+            return getResponse(data);
+        });
+    }
+
+    module.paymentMethods = (customerToken, cartId) => {
+        url += `payment-methods?token=${customerToken}&cartId=${cartId}`;
+        return restClient.get(url).then((data)=> {
+            return getResponse(data);
+        });
+    }
+
 module.getCoupon = (customerToken, cartId) => {
     url += `coupon?token=${customerToken}&cartId=${cartId}`;
     return restClient.get(url).then((data)=> {
